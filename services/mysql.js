@@ -1,12 +1,14 @@
 // services/mysql.js
 const mysql = require('mysql2');
+require('dotenv').config();
 
 // Bağlantı oluştur
 const connection = mysql.createConnection({
-  host: 'localhost',       // Docker kullanıyorsan host: 'localhost' veya '127.0.0.1'
-  user: 'root',            // MySQL kullanıcı adı
-  password: '123456',      // MySQL şifresi
-  database: 'mydb'         // Bağlanmak istediğin veritabanı
+  host: process.env.DB_HOST,     
+  user: process.env.DB_USER,     
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT        // Bağlanmak istediğin veritabanı
 });
 
 // Bağlantıyı test et

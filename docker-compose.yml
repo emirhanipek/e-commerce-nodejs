@@ -13,5 +13,23 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
+  backend:
+    build: .
+    container_name: my-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_USER: user
+      DB_PASSWORD: user123
+      DB_NAME: mydb
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["npm", "run", "dev"]   # veya "npm start"
+
 volumes:
   mysql-data:
