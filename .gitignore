@@ -1,3 +1,17 @@
+node_modules
+.env
+.DS_Store
+npm-debug.log
+dist
+build
+.vscode
+.idea
+*.log
+coverage
+*.sqlite
+*.sqlite3
+uploads
+*.env
 # Logs
 logs
 *.log
