@@ -20,8 +20,16 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+const fs = require('fs');
+const uploadDir = './uploads';
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir);
+}
+
 app.use('/products', productRouter);
 app.use('/category', categoryRouter);
+app.use('/uploads', express.static('uploads'));
+
 
 // Server başlatma
 app.listen(port, () => {

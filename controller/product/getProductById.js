@@ -8,6 +8,7 @@ const getProductById = async (req, res) => {
   }
 
   try {
+    // Product + category
     const [rows] = await connection.promise().query(
       `SELECT 
          p.id, 
@@ -26,8 +27,20 @@ const getProductById = async (req, res) => {
       return res.status(404).json({ message: 'Ürün bulunamadı.' });
     }
 
-    console.log(`Ürün getirildi ✅ ID: ${id}`);
-    res.status(200).json(rows[0]);
+    const product = rows[0];
+
+    // Product ile ilişkili görselleri al
+    const [images] = await connection.promise().query(
+      `SELECT id, image_url, filename, is_primary, position
+       FROM product_images
+       WHERE product_id = ?`,
+      [id]
+    );
+
+    product.images = images;
+
+    console.log(`Ürün ve görseller getirildi ✅ ID: ${id}`);
+    res.status(200).json(product);
   } catch (err) {
     console.error('Ürün getirme hatası ❌', err);
     res.status(500).json({ message: 'Ürün getirilemedi.', error: err.message });
