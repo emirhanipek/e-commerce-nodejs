@@ -1,4 +1,4 @@
-const connection = require('../../db'); // DB bağlantını doğru import et
+const connection = require('../../services/mysql');
 
 async function getAllCategories(req, res) {
   try {

@@ -1,4 +1,4 @@
-const connection = require('../../db');
+const connection = require('../../services/mysql');
 
 async function updateCategory(req, res) {
   try {

@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 
-const getAllCategories = require('../controller/category.js/getAllCategories');
-const getCategoryById = require('../controller/category.js/getCategoryById');
-const createCategory = require('../controller/category.js/createCategory');
-const updateCategory = require('../controller/category.js/updateCategory');
-const deleteCategory = require('../controller/category.js/deleteCategory');
+const getAllCategories = require('../controller/category/GetAllCategory');
+const getCategoryById = require('../controller/category/getCategoryById');
+const createCategory = require('../controller/category/createCategory');
+const updateCategory = require('../controller/category/updateCategory');
+const deleteCategory = require('../controller/category/deleteCategory');
 
 // Routes
 router.get('/', getAllCategories);           // GET /category/ → tüm kategoriler
