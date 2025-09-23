@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const connection = require('../../services/mysql');
+const connection = require('../../db/mysql');
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;

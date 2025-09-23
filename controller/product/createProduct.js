@@ -1,4 +1,4 @@
-const connection = require('../../services/mysql');
+const connection = require('../../db/mysql');
 
 const createProduct = async (req, res) => {
   const { name, description, price, category_id } = req.body;

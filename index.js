@@ -3,14 +3,14 @@ const cors = require('cors'); // <-- CORS için eklendi
 const app = express();
 const productRouter = require('./router/product');
 const categoryRouter = require('./router/category');
-const connection = require('./services/mysql'); // MySQL bağlantısı
+const authRoutes = require('./router/auth');
+const connection = require('./db/mysql'); // MySQL bağlantısı
 
 const port = 3000;
 
 // Middleware
 app.use(cors()); // <-- Tüm frontend originlerine izin ver
-// Eğer sadece belirli bir frontend'e izin vermek istersen:
-// app.use(cors({ origin: 'http://localhost:3001' }));
+
 
 app.use(express.json());
 
@@ -28,6 +28,7 @@ if (!fs.existsSync(uploadDir)){
 
 app.use('/products', productRouter);
 app.use('/category', categoryRouter);
+app.use('/login', authRoutes);
 app.use('/uploads', express.static('uploads'));
 
 

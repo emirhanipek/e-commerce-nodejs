@@ -1,4 +1,4 @@
-const connection = require('../services/mysql');
+const connection = require('../db/mysql');
 
 const createTables = async () => {
   try {
@@ -12,6 +12,20 @@ const createTables = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
     console.log('Category tablosu oluşturuldu ✅');
+
+    // Users tablosu
+    await connection.promise().query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id CHAR(36) NOT NULL PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+        refresh_token TEXT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+    console.log('Users tablosu oluşturuldu ✅');
 
     // Product tablosu
     await connection.promise().query(`
