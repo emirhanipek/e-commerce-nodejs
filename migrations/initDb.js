@@ -8,7 +8,8 @@ const createTables = async () => {
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_category_name (name)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
     console.log('Category tablosu oluşturuldu ✅');
@@ -22,7 +23,9 @@ const createTables = async () => {
         role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
         refresh_token TEXT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_users_email (email),
+        INDEX idx_users_role (role)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
     console.log('Users tablosu oluşturuldu ✅');
@@ -37,7 +40,10 @@ const createTables = async () => {
         category_id INT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL
+        FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL,
+        INDEX idx_product_name (name),
+        INDEX idx_product_category (category_id),
+        INDEX idx_product_price (price)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
     console.log('Product tablosu oluşturuldu ✅');
@@ -53,7 +59,10 @@ const createTables = async () => {
         position INT DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+        FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE,
+        INDEX idx_product_images_product_id (product_id),
+        INDEX idx_product_images_primary (is_primary),
+        INDEX idx_product_images_position (position)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
     console.log('Product_images tablosu oluşturuldu ✅');
