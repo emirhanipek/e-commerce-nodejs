@@ -1,4 +1,4 @@
-const connection = require('../../services/mysql');
+const connection = require('../../db/mysql');
 
 async function getAllCategories(req, res) {
   try {

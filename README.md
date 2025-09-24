@@ -11,7 +11,7 @@
 
 </div>
 
-## 📖 Proje Hakkında
+## 📖 Proje Hakkında test
 
 Bu proje, **Sergio Ferrari** markası için geliştirilmiş modern bir e-ticaret backend servisidir. RESTful API mimarisi ile ürün ve kategori yönetimi sunmaktadır.
 
