@@ -4,6 +4,8 @@ const app = express();
 const productRouter = require('./router/product');
 const categoryRouter = require('./router/category');
 const connection = require('./services/mysql'); // MySQL bağlantısı
+const aboutRouter = require('./router/about');
+const contactRouter = require('./router/contact');
 
 const port = 3000;
 
@@ -29,6 +31,8 @@ if (!fs.existsSync(uploadDir)){
 app.use('/products', productRouter);
 app.use('/category', categoryRouter);
 app.use('/uploads', express.static('uploads'));
+app.use('/about', aboutRouter);
+app.use('/contact', contactRouter);
 
 
 // Server başlatma
