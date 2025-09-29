@@ -5,7 +5,7 @@ const getAbout = require('../controller/about/getAbout');
 const postAbout = require('../controller/about/postAbout');
 
 // Routes
-router.get('/', getAbout);           // GET /about/ ’ about bilgilerini getir
-router.post('/', postAbout);         // POST /about/ ’ yeni about bilgisi ekle
+router.get('/', getAbout);          
+router.put('/', postAbout);       
 
 module.exports = router;

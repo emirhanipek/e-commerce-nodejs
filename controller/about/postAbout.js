@@ -1,6 +1,6 @@
 const connection = require('../../services/mysql');
 
-async function postAbout(req, res) {
+async function updateAbout(req, res) {
   const {
     headerImage,
     headerText,
@@ -19,15 +19,17 @@ async function postAbout(req, res) {
 
   try {
     const [result] = await connection.promise().query(
-      `INSERT INTO about (headerImage, headerText, headerDescription, storyTitle, storyImage, misyonTitle, misyonDescription, visyonTitle, vizyonDescription)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `UPDATE about SET headerImage = ?, headerText = ?, headerDescription = ?, storyTitle = ?, storyImage = ?, misyonTitle = ?, misyonDescription = ?, visyonTitle = ?, vizyonDescription = ?`,
       [headerImage, headerText, headerDescription, storyTitle, storyImage, misyonTitle, misyonDescription, visyonTitle, vizyonDescription]
     );
 
-    res.status(201).json({
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Kayıt bulunamadı.' });
+    }
+
+    res.status(200).json({
       success: true,
       data: {
-        id: result.insertId,
         headerImage,
         headerText,
         headerDescription,
@@ -40,9 +42,9 @@ async function postAbout(req, res) {
       }
     });
   } catch (error) {
-    console.error('Error creating about:', error);
+    console.error('Error updating about:', error);
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 }
 
-module.exports = postAbout;
+module.exports = updateAbout;
