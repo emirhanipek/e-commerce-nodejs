@@ -18,14 +18,14 @@ const createProduct = async (req, res) => {
     const productId = result.insertId;
     console.log('Yeni ürün oluşturuldu ✅', { id: productId, name, price });
 
-    // 2️⃣ Görselleri ekleme
+    // 2️⃣ Görselleri ekleme (multer ile yüklenen dosyalar - field adı: image_url)
     if (req.files && req.files.length > 0) {
       const files = req.files;
 
       // values array: [product_id, image_url, filename, is_primary, position]
       const values = files.map((file, index) => [
         productId,
-        `/uploads/${file.filename}`, // frontend için URL
+        `/uploads/product/${file.filename}`, // frontend için URL
         file.filename,
         index === 0 ? 1 : 0, // ilk resim primary
         index
@@ -46,7 +46,7 @@ const createProduct = async (req, res) => {
       description,
       price,
       category_id,
-      images: req.files ? req.files.map(f => `/uploads/${f.filename}`) : []
+      images: req.files ? req.files.map(f => `/uploads/product/${f.filename}`) : []
     });
   } catch (err) {
     console.error('Ürün oluşturma hatası ❌', err);

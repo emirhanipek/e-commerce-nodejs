@@ -2,25 +2,34 @@ const connection = require('../../services/mysql');
 
 async function updateAbout(req, res) {
   const {
-    headerImage,
     headerText,
     headerDescription,
     storyTitle,
-    storyImage,
+    storyDesc,
     misyonTitle,
     misyonDescription,
     visyonTitle,
     vizyonDescription
   } = req.body;
 
-  if (!headerImage || !headerText || !headerDescription || !storyTitle || !storyImage || !misyonTitle || !misyonDescription || !visyonTitle || !vizyonDescription) {
+  // Multer'dan gelen dosyalar: req.files.headerImage[0] ve req.files.storyImage[0]
+  const headerImage = req.files?.headerImage?.[0]?.path || null;
+  const storyImage = req.files?.storyImage?.[0]?.path || null;
+
+  if (!headerText || !headerDescription || !storyTitle || !storyDesc || !misyonTitle || !misyonDescription || !visyonTitle || !vizyonDescription) {
     return res.status(400).json({ success: false, message: 'Tüm alanlar zorunludur.' });
   }
 
   try {
+    // Önce mevcut kaydı alalım (resimler opsiyonel güncellenecek)
+    const [existing] = await connection.promise().query(`SELECT * FROM about LIMIT 1`);
+
+    const finalHeaderImage = headerImage || (existing[0]?.headerImage || null);
+    const finalStoryImage = storyImage || (existing[0]?.storyImage || null);
+
     const [result] = await connection.promise().query(
-      `UPDATE about SET headerImage = ?, headerText = ?, headerDescription = ?, storyTitle = ?, storyImage = ?, misyonTitle = ?, misyonDescription = ?, visyonTitle = ?, vizyonDescription = ?`,
-      [headerImage, headerText, headerDescription, storyTitle, storyImage, misyonTitle, misyonDescription, visyonTitle, vizyonDescription]
+      `UPDATE about SET headerImage = ?, headerText = ?, headerDescription = ?, storyTitle = ?, storyImage = ?, storyDesc = ?, misyonTitle = ?, misyonDescription = ?, visyonTitle = ?, vizyonDescription = ?`,
+      [finalHeaderImage, headerText, headerDescription, storyTitle, finalStoryImage, storyDesc, misyonTitle, misyonDescription, visyonTitle, vizyonDescription]
     );
 
     if (result.affectedRows === 0) {
@@ -30,11 +39,12 @@ async function updateAbout(req, res) {
     res.status(200).json({
       success: true,
       data: {
-        headerImage,
+        headerImage: finalHeaderImage,
         headerText,
         headerDescription,
         storyTitle,
-        storyImage,
+        storyImage: finalStoryImage,
+        storyDesc,
         misyonTitle,
         misyonDescription,
         visyonTitle,

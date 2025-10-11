@@ -2,7 +2,6 @@ const connection = require('../../services/mysql');
 
 async function updateContact(req, res) {
   const {
-    headerImage,
     headerTitle,
     headerDesc,
     phoneTitle,
@@ -18,14 +17,22 @@ async function updateContact(req, res) {
     linkedinLink
   } = req.body;
 
-  if (!headerImage || !headerTitle || !headerDesc || !phoneTitle || !phoneValue || !emailTitle || !emailValue || !addressTitle || !addressValue || !workhoursTitle || !workHoursDesc) {
+  // Multer'dan gelen dosya: req.file
+  const headerImage = req.file?.path || null;
+
+  if (!headerTitle || !headerDesc || !phoneTitle || !phoneValue || !emailTitle || !emailValue || !addressTitle || !addressValue || !workhoursTitle || !workHoursDesc) {
     return res.status(400).json({ success: false, message: 'Zorunlu alanlar eksik.' });
   }
 
   try {
+    // Önce mevcut kaydı alalım (resim opsiyonel güncellenecek)
+    const [existing] = await connection.promise().query(`SELECT * FROM contact LIMIT 1`);
+
+    const finalHeaderImage = headerImage || (existing[0]?.headerImage || null);
+
     const [result] = await connection.promise().query(
       `UPDATE contact SET headerImage = ?, headerTitle = ?, headerDesc = ?, phoneTitle = ?, phoneValue = ?, emailTitle = ?, emailValue = ?, addressTitle = ?, addressValue = ?, workhoursTitle = ?, workHoursDesc = ?, facebookLink = ?, instaLink = ?, linkedinLink = ?`,
-      [headerImage, headerTitle, headerDesc, phoneTitle, phoneValue, emailTitle, emailValue, addressTitle, addressValue, workhoursTitle, workHoursDesc, facebookLink || null, instaLink || null, linkedinLink || null]
+      [finalHeaderImage, headerTitle, headerDesc, phoneTitle, phoneValue, emailTitle, emailValue, addressTitle, addressValue, workhoursTitle, workHoursDesc, facebookLink || null, instaLink || null, linkedinLink || null]
     );
 
     if (result.affectedRows === 0) {
@@ -35,7 +42,7 @@ async function updateContact(req, res) {
     res.status(200).json({
       success: true,
       data: {
-        headerImage,
+        headerImage: finalHeaderImage,
         headerTitle,
         headerDesc,
         phoneTitle,
