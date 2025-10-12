@@ -31,5 +31,36 @@ services:
     working_dir: /app
     command: ["npm", "run", "dev"]   # veya "npm start"
 
+  admin-panel:
+    build: ../admin-panel
+    container_name: my-admin-panel-senkaReklam
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql
+      - backend
+    environment:
+      DB_HOST: mysql
+      DB_USER: user
+      DB_PASSWORD: user123
+      DB_NAME: senkaReklam
+
+  my-app:
+    build: ../my-app
+    container_name: my-app-senkaReklam
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - mysql
+      - backend
+      - admin-panel
+    environment:
+      DB_HOST: mysql
+      DB_USER: user
+      DB_PASSWORD: user123
+      DB_NAME: senkaReklam
+
 volumes:
   mysql-data:
