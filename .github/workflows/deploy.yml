@@ -23,4 +23,5 @@ jobs:
           script: |
             cd /var/www/senkaRekla/e-commerce-nodejs
             git pull origin main
+            docker-compose down
             docker-compose up --build -d
