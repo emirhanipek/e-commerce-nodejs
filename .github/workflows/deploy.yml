@@ -21,6 +21,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
-            cd /path/to/your/project
+            cd /var/www/senkaRekla/e-commerce-nodejs
             git pull origin main
             docker-compose up --build -d
