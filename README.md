@@ -66,7 +66,7 @@ docker exec my-backend npm run migrate
 ```
 
 ### 2️⃣ Manuel Kurulum
-
+asd
 ```bash
 # Bağımlılıkları yükleyin
 npm install
