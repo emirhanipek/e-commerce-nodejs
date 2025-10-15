@@ -64,7 +64,7 @@ docker-compose up -d
 # Veritabanı tablolarını oluşturun
 docker exec my-backend npm run migrate
 ```
-aa
+
 ### 2️⃣ Manuel Kurulum
 
 ```bash
