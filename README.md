@@ -7,7 +7,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com/)
 
-*Modern ve güvenilir e-ticaret backend API servisi*
+*Modern ve güvilir e-ticaret backend API servisi*
 
 </div>
 
